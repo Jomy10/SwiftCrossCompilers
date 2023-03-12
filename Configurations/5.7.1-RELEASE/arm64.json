@@ -8,7 +8,7 @@
   "cachePath": "/tmp",
   "macToolchain": "https://download.swift.org/swift-5.7.1-release/xcode/swift-5.7.1-RELEASE/swift-5.7.1-RELEASE-osx.pkg",
   "targetToolchain": "https://download.swift.org/swift-5.7.1-release/ubuntu2004-aarch64/swift-5.7.1-RELEASE/swift-5.7.1-RELEASE-ubuntu20.04-aarch64.tar.gz",
-  "binutilsSource": "https://ftp.gnu.org/gnu/binutils/binutils-2.37.tar.gz",
+  "binutilsSource": "https://ftp.gnu.org/gnu/binutils/binutils-2.40.tar.gz",
   "packageMirror": "ftp://ports.ubuntu.com/ubuntu-ports",
   "packageSources": [
     "/dists/focal/main/binary-arm64/Packages.gz",
@@ -99,6 +99,7 @@
     "libsqlite3-dev",
     "libssl-dev",
     "libssl1.1",
+    "libssl1.1-udeb",
     "libstdc++-7-dev",
     "libstdc++6",
     "libtasn1-6",

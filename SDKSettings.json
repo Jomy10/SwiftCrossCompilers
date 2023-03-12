@@ -1,0 +1,22 @@
+{
+	"DisplayName": "ubuntu linux 20.04",
+	"DefaultProperties": {
+		"PLATFORM_NAME": "linux"
+	},
+	"MinimalDisplayName": "16.2",
+	"Version": "16.2",
+	"IsBaseSDK": "YES",
+	"SupportedTargets": {
+		"linux": {
+			"LLVMTargetTripleVendor": "linux",
+			"Archs": ["arm64"],
+			"LLVMTargetTripleEnvironment": "",
+			"ClangRuntimeLibraryPlatformName": "linux",
+			"LLVMTargetTripleSys": "gnu",
+			"PlatformFamilyName": "linux"
+		}
+	},
+	"PropertyConditionFallbackNames": ["embedded"],
+	"CanonicalName": "linux",
+	"CustomProperties": {}
+}

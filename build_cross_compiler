@@ -253,6 +253,7 @@ cd "$dest"
 
 rm -rf $cross_sdk_basename/*
 mkdir -p "$cross_sdk_basename/$linux_sdk_name"
+cp $BASE_DIR/SDKSettings.json "$cross_sdk_basename/$linux_sdk_name"
 
 rm -rf $cross_tc_basename/*
 mkdir -p "$cross_tc_basename/$xc_tc_name"
@@ -369,7 +370,7 @@ find "$cross_sdk_basename/$linux_sdk_name" -type l | while read -r line; do
         dirNameTo=$(dirname "${to}")
         dirNameFrom=$(dirname "${line}")
         # rvs -- requires `brew install coreutils` ( https://github.com/harto/realpath-osx )
-        relativePath=`realpath --relative-to=${dirNameFrom} ${dirNameTo}`
+        relativePath=`/opt/homebrew/Cellar/coreutils/9.1/libexec/gnubin/realpath --relative-to=${dirNameFrom} ${dirNameTo}`
         ln -s "${relativePath}/${baseNameTo}" "$line"
     fi
 done
