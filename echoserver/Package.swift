@@ -1,5 +1,4 @@
-// swift-tools-version:5.3
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version:5.7
 
 import PackageDescription
 
@@ -12,8 +11,8 @@ let package = Package(
         .watchOS(.v7)
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-nio.git",  .upToNextMajor(from: "2.36.0")),
-        .package(url: "https://github.com/adam-fowler/mqtt-nio", .upToNextMajor(from: "2.5.2")),
+        .package(url: "https://github.com/apple/swift-nio.git",  .upToNextMajor(from: "2.49.0")),
+        .package(url: "https://github.com/adam-fowler/mqtt-nio", .upToNextMajor(from: "2.7.1")),
     ],
     targets: [
         .target(

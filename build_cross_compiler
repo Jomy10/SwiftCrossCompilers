@@ -139,6 +139,10 @@ fi
 BASEDIR=`pwd`
 echo Constructing x-compiler in: $BASEDIR
 
+LOGDIR=$BASEDIR/Logs
+mkdir -p $LOGDIR || true
+echo Sending logs to: $LOGDIR
+
 CONFIG=$1
 echo Using Configuration: $CONFIG
 
@@ -253,7 +257,7 @@ cd "$dest"
 
 rm -rf $cross_sdk_basename/*
 mkdir -p "$cross_sdk_basename/$linux_sdk_name"
-cp $BASE_DIR/SDKSettings.json "$cross_sdk_basename/$linux_sdk_name"
+cp $BASEDIR/SDKSettings.json "$cross_sdk_basename/$linux_sdk_name"
 
 rm -rf $cross_tc_basename/*
 mkdir -p "$cross_tc_basename/$xc_tc_name"
@@ -343,15 +347,15 @@ echo "  patch broken gold-threads.cc in `pwd`"
 patch -s ./gold/gold-threads.cc ../gold-threads.patch
 # 4secs on ZeaPro
 echo "  Configuring binutils (~4s) .."
-./configure --enable-gold > xt-binutils-configure.log 2>&1
+./configure --disable-dependency-tracking --enable-deterministic-archives --disable-werror --enable-interwork --enable-multilib --enable-64-bit-bfd --enable-gold --enable-plugins --enable-targets=all --with-system-zlib --disable-nls > $LOGDIR/xt-binutils-configure.log 2>&1
 echo "  .. building binutils (~1m) .."
 make -j > xt-binutils-make.log 2>&1
 echo "  done."
 cd gold
 echo "  Configuring gold (~11s) .."
-./configure --enable-gold > xt-gold-configure.log 2>&1
+./configure --disable-dependency-tracking --enable-deterministic-archives --disable-werror --enable-interwork --enable-multilib --enable-64-bit-bfd --enable-gold --enable-plugins --enable-targets=all --with-system-zlib --disable-nls > $LOGDIR/xt-gold-configure.log 2>&1
 echo "  .. building gold (~1m).."
-make -j > xt-gold-make.log 2>&1
+make -j > $LOGDIR/xt-gold-make.log 2>&1
 echo "  done."
 cp "$tmp"/binutils-*/gold/ld-new "$cross_tc_basename/$xc_tc_name/usr/bin/ld.gold"
 rm -rf "$tmp"
@@ -479,10 +483,11 @@ cat > "$cross_destination_basename/$destination_name" <<EOF
     ],
     "extra-swiftc-flags": [
         "-target", "${SPM_TARGET}",
-        "-use-ld=gold", 
+        "-use-ld=gold",
         "-sdk", "${cross_sdk_basename}/${linux_sdk_name}",
         "-tools-directory", "${cross_tc_basename}/${xc_tc_name}/usr/bin",
-	    "-L", "${cross_sdk_basename}/${linux_sdk_name}/usr/lib/gcc/${DESTINATION_TARGET}/7"
+        "-L", "${cross_sdk_basename}/${linux_sdk_name}/usr/lib/llvm-10/lib",
+	"-L", "${cross_sdk_basename}/${linux_sdk_name}/usr/lib/gcc/${DESTINATION_TARGET}/7"
     ],
     "extra-cpp-flags": [
         "-I", "${cross_sdk_basename}/${linux_sdk_name}/usr/include/c++/7",
