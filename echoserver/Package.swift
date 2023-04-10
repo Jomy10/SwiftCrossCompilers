@@ -1,5 +1,4 @@
 // swift-tools-version:5.7
-
 import PackageDescription
 
 let package = Package(
@@ -15,7 +14,7 @@ let package = Package(
         .package(url: "https://github.com/adam-fowler/mqtt-nio", .upToNextMajor(from: "2.7.1")),
     ],
     targets: [
-        .target(
+        .executableTarget(
             name: "echoserver",
             dependencies: [
                 .product(name: "MQTTNIO", package: "mqtt-nio"),
@@ -25,6 +24,7 @@ let package = Package(
         ),
         .testTarget(
             name: "echoserverTests",
-            dependencies: ["echoserver"]),
+            dependencies: ["echoserver"]
+	),
     ]
 )
