@@ -5,7 +5,7 @@
   "targetArch": "x86_64",
   "gnuExtension": "-gnu",
   "installerDir": "./InstallPackagers/SwiftCrossCompiler/Developer",
-  "cachePath": "/tmp",
+  "cachePath": "/tmp/focal-amd64",
   "macToolchain": "https://download.swift.org/swift-5.8-release/xcode/swift-5.8-RELEASE/swift-5.8-RELEASE-osx.pkg",
   "targetToolchain": "https://download.swift.org/swift-5.8-release/ubuntu2004/swift-5.8-RELEASE/swift-5.8-RELEASE-ubuntu20.04.tar.gz",
   "binutilsSource": "https://ftp.gnu.org/gnu/binutils/binutils-2.37.tar.gz",

@@ -16,7 +16,7 @@
 function usage() {
     echo >&2 "Usage: $0 NAME_OF_CONFIGURATION_FILE_TO_USE"
     echo >&2
-    echo >&2 "Example: $0 Configurations/5.3.3-RELEASE/arm64.json"
+    echo >&2 "Example: $0 Configurations/5.8.0-RELEASE/arm64.json"
     echo >&2
 }
 
@@ -205,6 +205,7 @@ INSTALLER_DIR=`cat $CONFIG | jq -jc '.installerDir' | sed s/\"//g`
 
 # set -xv
 # where to get stuff from
+mkdir -p `cat $CONFIG | jq -jc '.cachePath'`
 dest=$(realpath `cat $CONFIG | jq -jc '.cachePath'`)
 echo "Destination directory = ${dest}"
 
@@ -442,7 +443,7 @@ if [[ $VALID -ne 0 ]]; then
     echo "    Invalid links in SDK: $VALID, exiting"
     echo "    Packages resolving the following links must be added to the configuration:"
     MISSING_LIST=`find ${cross_sdk_basename}/${linux_sdk_name} -type l -exec sh -c 'file -b "$1" | grep -q ^broken' sh {} \; -print`
-    echo "$MISSING_LIST"
+    for i in $MISSING_LIST; do ls -l $i; done
     exit 77
 fi
 echo "    SDK is valid"
@@ -475,10 +476,10 @@ cat > "$cross_destination_basename/$destination_name" <<EOF
     "target": "${SPM_TARGET}",
     "dynamic-library-extension": "so",
     "extra-cc-flags": [
-        "-I", "${cross_sdk_basename}/${linux_sdk_name}/usr/include/${DESTINATION_TARGET}",
         "-I", "${cross_sdk_basename}/${linux_sdk_name}/usr/include",
-        "-I", "${cross_sdk_basename}/${linux_sdk_name}/usr/include/c++/7",
-        "-I", "${cross_sdk_basename}/${linux_sdk_name}/usr/include/${DESTINATION_TARGET}/c++/7",
+        "-I", "${cross_sdk_basename}/${linux_sdk_name}/usr/include/${DESTINATION_TARGET}",
+        "-I", "${cross_sdk_basename}/${linux_sdk_name}/usr/include/c++/10",
+        "-I", "${cross_sdk_basename}/${linux_sdk_name}/usr/include/${DESTINATION_TARGET}/c++/10",
         "-fPIC"
     ],
     "extra-swiftc-flags": [
@@ -486,13 +487,14 @@ cat > "$cross_destination_basename/$destination_name" <<EOF
         "-use-ld=gold",
         "-sdk", "${cross_sdk_basename}/${linux_sdk_name}",
         "-tools-directory", "${cross_tc_basename}/${xc_tc_name}/usr/bin",
+	"-L", "${cross_sdk_basename}/${linux_sdk_name}/usr/lib/aarch64-linux-gnu",
         "-L", "${cross_sdk_basename}/${linux_sdk_name}/usr/lib/llvm-10/lib",
-	"-L", "${cross_sdk_basename}/${linux_sdk_name}/usr/lib/gcc/${DESTINATION_TARGET}/7"
+	"-L", "${cross_sdk_basename}/${linux_sdk_name}/usr/lib/gcc/${DESTINATION_TARGET}/10",
+        "-lstdc++"
     ],
     "extra-cpp-flags": [
-        "-I", "${cross_sdk_basename}/${linux_sdk_name}/usr/include/c++/7",
-        "-I", "${cross_sdk_basename}/${linux_sdk_name}/usr/include/${DESTINATION_TARGET}/c++/7",
-        "-lstdc++"
+        "-I", "${cross_sdk_basename}/${linux_sdk_name}/usr/include/c++/10",
+        "-I", "${cross_sdk_basename}/${linux_sdk_name}/usr/include/${DESTINATION_TARGET}/c++/10",
     ]
 }
 EOF
