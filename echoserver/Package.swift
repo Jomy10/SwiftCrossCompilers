@@ -1,13 +1,13 @@
-// swift-tools-version:5.7
+// swift-tools-version:5.8
 import PackageDescription
 
 let package = Package(
     name: "echoserver",
     platforms: [
-        .iOS(.v14),
-        .macOS(.v11),
-        .tvOS(.v14),
-        .watchOS(.v7)
+        .iOS(.v15),
+        .macOS(.v12),
+        .tvOS(.v15),
+        .watchOS(.v8)
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-nio.git",  .upToNextMajor(from: "2.49.0")),
